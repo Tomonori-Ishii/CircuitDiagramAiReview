@@ -1,0 +1,539 @@
+{
+  "document": "ユーザ要求",
+  "version": "1.1",
+  "date": "2026-11-22",
+  "basedOn": {
+    "requirementsDocument": "docs/requirements.md（要件定義書 v1.2）",
+    "featureList": "docs/feature-list.json（機能リスト v2.1）"
+  },
+  "note": "利用者が何を必要としているかを、利用者の立場で記述する。実装の方式は含めない。各要求は要件 ID（requirements）と機能 ID（features）に対応付け、実現状況は機能リストを正とする。",
+  "stakeholders": [
+    {
+      "id": "S-01",
+      "name": "利用者",
+      "description": "回路図の設計の正しさを評価する人。想定する利用者は設計者とし、レビュー担当向けの機能は後続とする"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "UR-01",
+      "category": "入力",
+      "title": "回路図画像をドラッグ&ドロップで入力する",
+      "statement": "回路図の画像（PNG または JPG）を、指定の場所へドラッグ&ドロップして入力したい。",
+      "reason": "回路図を手元のファイルからすぐ取り込み、作業を始めたいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-IN-01", "FR-IN-02"],
+        "features": ["F-01"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-02",
+      "category": "入力",
+      "title": "手入力でネットリストを作成する",
+      "statement": "画像を見ながら、部品、接続、ノードを手で入力してネットリストを作りたい。",
+      "reason": "画像から自動で読み取る方式は、現時点では使えないため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-IN-04", "FR-CK-01", "FR-CK-02", "FR-CK-04"],
+        "features": ["F-03"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-03",
+      "category": "入力",
+      "title": "画像に重ねて部品とノードを確認する",
+      "statement": "画像の上に部品の枠、部品 ID、ノードを重ねて表示し、重ね表示の濃さを変えたい。",
+      "reason": "画像と読み取り結果を見比べて、誤りを見つけたいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-01"],
+        "features": ["F-04"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-04",
+      "category": "入力",
+      "title": "画像と表を相互に選んで確認する",
+      "statement": "画像上の部品と表の行を、互いに選べるようにしたい。",
+      "reason": "どの表の行がどの部品かを素早く突き合わせたいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-02", "FR-CK-03"],
+        "features": ["F-04"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-05",
+      "category": "入力",
+      "title": "部品・ノード・注釈を編集する",
+      "statement": "部品の追加、削除、種別変更、値、端子ごとのノード、注釈と対象を編集し、取り消しとやり直しをしたい。",
+      "reason": "読み取りの誤りを、利用者の手で直せるようにするため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-04"],
+        "features": ["F-04"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-06",
+      "category": "入力",
+      "title": "値を数値と単位に分けて入力し、元の表記を残す",
+      "statement": "値は数値と単位（接頭辞と単位記号）を分けて入力し、元の表記も残したい。",
+      "reason": "回路図に書かれた表記のまま記録し、誤った換算を防ぐため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-04"],
+        "features": ["F-04"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-07",
+      "category": "入力",
+      "title": "確定前に誤りと警告を知る",
+      "statement": "確定する前に、確定を妨げる誤りと、確定は可能だが注意が必要な警告を一覧で知りたい。未読取の値は入力を求められたい。",
+      "reason": "誤った回路で評価を進めないようにするため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-05", "FR-CK-06"],
+        "features": ["F-05"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-08",
+      "category": "入力",
+      "title": "確定して版番号を付ける",
+      "statement": "回路の確認が済んだら確定し、版番号の付いたネットリストとして評価に進みたい。",
+      "reason": "どの版の回路を評価したかを、後で示せるようにするため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-07"],
+        "features": ["F-06"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-09",
+      "category": "入力",
+      "title": "確定後の編集で既存の評価が無効になることを知る",
+      "statement": "確定したあとに回路を編集したら、以前の評価結果が無効になり、評価をやり直すよう求められたい。",
+      "reason": "古い回路に対する結果を、新しい回路の結果と取り違えないため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-CK-08"],
+        "features": ["F-06"],
+        "acceptance": ["AC-06"]
+      }
+    },
+    {
+      "id": "UR-10",
+      "category": "質問",
+      "title": "判定に必要な情報が不足したら質問される",
+      "statement": "判定に必要な情報が足りないときは、推測で判定せず、何の判定に必要かを示して質問されたい。回答形式（数値、文字列、選択）も指定されたい。",
+      "reason": "推測による誤った判定を避けたいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-QA-01", "FR-QA-02", "FR-QA-05", "REQ-P-02"],
+        "features": ["F-07"],
+        "acceptance": ["AC-02"]
+      }
+    },
+    {
+      "id": "UR-11",
+      "category": "質問",
+      "title": "同じ質問を繰り返されず、回答が残る",
+      "statement": "一度答えた質問は、同じ作業の中で繰り返し聞かれず、回答が保持されたい。",
+      "reason": "同じ確認を何度もさせられるのを避けるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-QA-03", "FR-QA-04"],
+        "features": ["F-07", "F-13"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-12",
+      "category": "解析",
+      "title": "直流と交流の回路を解析してもらう",
+      "statement": "直流と、単一周波数の正弦波定常（交流）の解析を行い、節点電圧、電流、消費電力を見たい。入出力は実効値で見たい。",
+      "reason": "設計の動作を数値で確かめるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-AN-01", "FR-AN-02", "FR-AN-03"],
+        "features": ["F-08"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-13",
+      "category": "解析",
+      "title": "解析できない理由と原因を知る",
+      "statement": "浮遊節点、直流経路のない節点、GND の欠如、対象外の素子、負帰還のない増幅器など、解析できない原因を、該当する部品やノードとともに知りたい。",
+      "reason": "原因を直して、解析を先へ進めるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-AN-05", "FR-AN-06", "FR-AN-08"],
+        "features": ["F-09", "F-10"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-14",
+      "category": "設計レビュー",
+      "title": "注釈の期待値との食い違いを指摘してもらう",
+      "statement": "回路図の注釈に書かれた期待値と、解析結果を比べ、許容誤差を超える箇所を理由とともに示してほしい。",
+      "reason": "設計が意図どおり動くかを確かめるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-DR-01", "REQ-P-03"],
+        "features": ["F-21"],
+        "acceptance": ["AC-01"]
+      }
+    },
+    {
+      "id": "UR-15",
+      "category": "設計レビュー",
+      "title": "判定の許容誤差を確認する",
+      "statement": "判定に使った許容誤差と、その出所（既定値、注釈、利用者の指定）を見たい。注釈の許容差は優先してほしい。",
+      "reason": "判定の根拠を、利用者が自分で確かめられるようにするため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-DR-02"],
+        "features": ["F-22"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-16",
+      "category": "設計レビュー",
+      "title": "複数の修正案を再解析結果とともに比べる",
+      "statement": "不一致に対する修正案を複数示し、それぞれを修正したあとの再解析結果を比べてから採用したい。",
+      "reason": "どの修正が期待値に合うかを、数値で選ぶため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-DR-03", "FR-DR-04"],
+        "features": ["F-23"],
+        "acceptance": ["AC-03"]
+      }
+    },
+    {
+      "id": "UR-17",
+      "category": "設計レビュー",
+      "title": "採用した修正を回路に反映し、取り消せる",
+      "statement": "採用した修正を回路図（ネットリスト）に反映し、取り消しとやり直しができ、変更の履歴を確認したい。",
+      "reason": "修正が意図どおりか確かめ、必要なら元に戻すため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-DR-05", "FR-DR-06"],
+        "features": ["F-24", "F-25"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-18",
+      "category": "設計レビュー",
+      "title": "出力が電源電圧で飽和するかを確認する",
+      "statement": "オペアンプの出力が電源電圧で飽和するかを、電源電圧の回答をもとに判定してほしい。",
+      "reason": "理想モデルでは分からない飽和を、確認したいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-DR-07"],
+        "features": ["F-26"],
+        "acceptance": ["AC-02"]
+      }
+    },
+    {
+      "id": "UR-19",
+      "category": "FMEA",
+      "title": "指定した部品の故障モードを一覧で確認する",
+      "statement": "FMEA の対象とする部品（複数可）を指定し、その部品種別の故障モード（開放、短絡、値の変化など）を一覧で見たい。注入の値は確認・変更したい。",
+      "reason": "起こりうる故障を漏れなく検討するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FM-01", "FR-FM-02", "FR-FM-03"],
+        "features": ["F-27", "F-28", "F-29"],
+        "acceptance": ["AC-04"]
+      }
+    },
+    {
+      "id": "UR-20",
+      "category": "FMEA",
+      "title": "故障の影響を回路全体で評価する",
+      "statement": "指定した故障を回路に入れて再解析し、期待値との差から、回路全体への影響を見たい。",
+      "reason": "一つの故障が、どこまで影響するかを知るため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FM-04", "FR-AN-04"],
+        "features": ["F-30"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-21",
+      "category": "FMEA",
+      "title": "重大度・発生度・検出度から対策の要否を知る",
+      "statement": "各故障について、重大度、発生度、検出度と RPN を見たい。発生度は自分で指定し、その根拠を残したい。対策が必要かの判定を知りたい。",
+      "reason": "対策の優先順位を、根拠を持って決めるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FM-05", "FR-FM-06"],
+        "features": ["F-31", "F-32"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-22",
+      "category": "FMEA",
+      "title": "FMEA の結果を表と CSV で受け取る",
+      "statement": "FMEA の結果を画面の表で見て、CSV ファイルとして保存したい。",
+      "reason": "表計算ソフトなどで、さらに整理するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FM-07"],
+        "features": ["F-33"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-23",
+      "category": "FTA",
+      "title": "期待値の外れをトップ事象として選ぶ",
+      "statement": "期待値から外れる事象の候補を提示してもらい、解析するトップ事象を選びたい。",
+      "reason": "分析の対象を、注釈に基づいて決めるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FT-01", "FR-FT-02"],
+        "features": ["F-34", "F-35"],
+        "acceptance": ["AC-05"]
+      }
+    },
+    {
+      "id": "UR-24",
+      "category": "FTA",
+      "title": "トップ事象を起こす故障の組合せを知る",
+      "statement": "トップ事象を起こす最小の故障の組合せ（最小カットセット）を、2 重故障まで見たい。",
+      "reason": "どの故障が重なると問題になるかを把握するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FT-03"],
+        "features": ["F-36"],
+        "acceptance": ["AC-05"]
+      }
+    },
+    {
+      "id": "UR-25",
+      "category": "FTA",
+      "title": "FTA 図とカットセットの一覧で原因を見る",
+      "statement": "最小カットセットから組み立てた FTA 図と、一覧表を見たい。各組合せについて、逸脱量と根拠を確認したい。",
+      "reason": "原因の関係を図で理解し、表で確認するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FT-04", "FR-FT-06"],
+        "features": ["F-37"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-26",
+      "category": "結果",
+      "title": "指摘箇所を画像の上で見る",
+      "statement": "指摘した部品やノードを、回路図の画像に重ねて見たい。",
+      "reason": "指摘と回路図の位置を、直感的に結びつけるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-RS-01"],
+        "features": ["F-12"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-27",
+      "category": "結果",
+      "title": "評価結果に根拠を残す",
+      "statement": "評価結果には、確定した版、前提（回答を含む）、許容誤差とその出所、判定根拠が残っていてほしい。",
+      "reason": "後から結果を見直したときに、何を前提に判定したかを確認するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-RS-02", "FR-QA-04"],
+        "features": ["F-13"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-28",
+      "category": "結果",
+      "title": "評価結果を PDF または Markdown で出力する",
+      "statement": "評価結果を PDF または Markdown の形式で出力し、報告書などに使いたい。",
+      "reason": "評価結果を、設計の記録や共有に使うため。",
+      "scope": "後続",
+      "trace": {
+        "requirements": ["FR-RS-03"],
+        "features": ["F-14"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-29",
+      "category": "作業の継続",
+      "title": "作業を中断しても内容が戻る",
+      "statement": "作業の途中でブラウザを閉じても、画像、編集内容、回答、評価の設定が残り、次に開いたとき復元するかを尋ねられたい。",
+      "reason": "作業が途中で失われないようにするため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-ST-01", "FR-ST-02", "FR-FL-03"],
+        "features": ["F-15"],
+        "acceptance": ["AC-07"]
+      }
+    },
+    {
+      "id": "UR-30",
+      "category": "作業の継続",
+      "title": "作業をファイルに保存し、別の機会に開く",
+      "statement": "作業内容を JSON のファイルとして保存し、そのファイルを開いて続きから作業したい。画像もファイルに含まれてほしい。",
+      "reason": "ブラウザのデータに頼らず、作業を持ち運ぶため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-ST-03", "FR-ST-04"],
+        "features": ["F-16"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-31",
+      "category": "作業の継続",
+      "title": "観点を続けて実行し、途中からやり直す",
+      "statement": "設計レビュー、FMEA、FTA のうち好きな観点を選び、続けて行ったり、途中からやり直したりしたい。",
+      "reason": "一つの回路を、複数の観点から順に確かめるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-FL-01", "FR-FL-02"],
+        "features": ["F-11"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-32",
+      "category": "安全・免責",
+      "title": "回路図の外部送信は、利用者が承認して行う",
+      "statement": "回路図（画像を含む）を外部の AI サービスに送る場合は、送信先と内容を利用者が把握し、承認したうえで行いたい。外部の AI は、利用者本人のサブスクリプションで使いたい。",
+      "reason": "回路図は機密情報の可能性があるため、送られる範囲を利用者が管理したいため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["NFR-SEC-01", "CON-07"],
+        "features": ["F-02", "F-17"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-33",
+      "category": "安全・免責",
+      "title": "評価結果が設計支援であることを知る",
+      "statement": "評価結果は設計を支援するためのもので、安全認証や規格適合の判定ではないことを、画面で確認したい。",
+      "reason": "結果を、認証や規格の判定と取り違えないため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["NFR-DISC-01", "REQ-P-04"],
+        "features": ["F-18"],
+        "acceptance": ["AC-08"]
+      }
+    },
+    {
+      "id": "UR-34",
+      "category": "安全・免責",
+      "title": "保存ファイルの管理について注意を受ける",
+      "statement": "保存したファイルの管理は自分の責任であることを、画面で知らされたい。",
+      "reason": "機密の回路図が含まれうるため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["NFR-SEC-02"],
+        "features": ["F-16"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-35",
+      "category": "操作",
+      "title": "日本語の画面で操作する",
+      "statement": "画面の表示と説明は日本語で行われてほしい。",
+      "reason": "利用者の日常の言語で、正しく判断するため。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["NFR-LANG-01"],
+        "features": [],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-36",
+      "category": "制約",
+      "title": "画面は React で作る",
+      "statement": "操作画面は React で実装されていてほしい。",
+      "reason": "利用者からの要求。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["CON-01", "CON-06"],
+        "features": [],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-37",
+      "category": "解析",
+      "title": "解析の経過と回答を記録する",
+      "statement": "解析の経過と、質問と回答の記録を残したい。",
+      "reason": "評価の過程を、後から確認できるようにするため。",
+      "scope": "後続",
+      "trace": {
+        "requirements": ["NFR-LOG-01"],
+        "features": ["F-19"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-38",
+      "category": "解析",
+      "title": "非線形素子を含む回路を評価する",
+      "statement": "ダイオード、トランジスタなどの非線形素子を含む回路を、評価の対象にしたい。",
+      "reason": "実際の回路の多くは、非線形素子を含むため。",
+      "scope": "後続",
+      "trace": {
+        "requirements": [],
+        "features": ["F-20"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-39",
+      "category": "FTA",
+      "title": "故障率から発生確率を求める",
+      "statement": "各故障の故障率が与えられた場合に、トップ事象の発生確率を計算したい。",
+      "reason": "故障の組合せを、確率の大きさで比べるため。",
+      "scope": "後続",
+      "trace": {
+        "requirements": ["FR-FT-05"],
+        "features": ["F-38"],
+        "acceptance": []
+      }
+    },
+    {
+      "id": "UR-40",
+      "category": "入力",
+      "title": "画像から回路の情報を読み取り、確認してから使う",
+      "statement": "回路図の画像から部品、接続、注釈を自動で読み取り、ネットリストの候補を作ってほしい。ただし、利用者が確認・修正するまでは評価に使われないことを望む。",
+      "reason": "手入力の手間を減らしつつ、誤読を利用者が必ず確認できるようにするため。外部送信は UR-32 の方針どおり、利用者本人の Claude Code で行う。",
+      "scope": "初版",
+      "trace": {
+        "requirements": ["FR-EX-01", "FR-EX-02"],
+        "features": ["F-02"],
+        "acceptance": []
+      }
+    }
+  ]
+}
