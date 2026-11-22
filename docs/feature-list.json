@@ -1,0 +1,545 @@
+{
+  "document": "機能リスト",
+  "version": "2.1",
+  "date": "2026-11-22",
+  "requirementsVersion": "1.2",
+  "legend": {
+    "scope": {
+      "初版": "初版で実装する機能",
+      "後続": "初版の対象外。後の版で扱う機能"
+    },
+    "status": {
+      "実装済み": "要件を満たす実装がある",
+      "一部": "実装はあるが、要件の一部が未対応",
+      "未実装": "実装がない",
+      "停止中": "実装はあるが、方針により無効にしている"
+    }
+  },
+  "groups": [
+    {
+      "id": "INPUT",
+      "name": "入力と抽出"
+    },
+    {
+      "id": "COMMON",
+      "name": "共通"
+    },
+    {
+      "id": "REVIEW",
+      "name": "設計レビュー"
+    },
+    {
+      "id": "FMEA",
+      "name": "FMEA"
+    },
+    {
+      "id": "FTA",
+      "name": "FTA"
+    }
+  ],
+  "features": [
+    {
+      "id": "F-01",
+      "group": "INPUT",
+      "name": "画像のドラッグ&ドロップ入力",
+      "summary": "指定のドロップゾーンに PNG または JPG を置いて入力する。ファイル選択も使える",
+      "requirements": [
+        "FR-IN-01",
+        "FR-IN-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-02",
+      "group": "INPUT",
+      "name": "AI によるネットリスト抽出",
+      "summary": "画像から、部品、接続、ブロック、注釈を読み取り、ネットリストにする。読み取りは利用者本人の Claude Code で行い、アプリはプロジェクトファイルで依頼と結果を受け渡す",
+      "requirements": [
+        "FR-EX-01",
+        "FR-EX-02",
+        "CON-07"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": "アプリは抽出依頼 JSON の書出しと抽出結果 JSON の読込を行う。読み取り自体は利用者の Claude Code で行い、アプリは外部 API を呼ばない"
+    },
+    {
+      "id": "F-03",
+      "group": "INPUT",
+      "name": "手入力とサンプルによるネットリストの作成",
+      "summary": "ネットリストを手入力で作成する。画像の枠に合わせて部品を配置する",
+      "requirements": [
+        "FR-IN-04",
+        "FR-CK-01",
+        "FR-CK-02",
+        "FR-CK-04"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-04",
+      "group": "INPUT",
+      "name": "抽出結果の確認・修正画面",
+      "summary": "画像の重ね表示、部品表、ノード表、注釈とブロックの欄。画像と表の相互選択、編集、取り消しとやり直し",
+      "requirements": [
+        "FR-CK-01",
+        "FR-CK-02",
+        "FR-CK-03",
+        "FR-CK-04"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-05",
+      "group": "INPUT",
+      "name": "確定前の検査",
+      "summary": "エラー（確定不可）と警告（確定可）を表示する。未読取の値は入力を求める",
+      "requirements": [
+        "FR-CK-05",
+        "FR-CK-06"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-06",
+      "group": "INPUT",
+      "name": "確定と版番号",
+      "summary": "確定すると版番号を付けたネットリストを保存し、観点の選択へ進む。確定後の編集で評価を無効にする",
+      "requirements": [
+        "FR-CK-07",
+        "FR-CK-08"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-07",
+      "group": "COMMON",
+      "name": "判断材料の質問",
+      "summary": "判定に必要な情報が不足する場合に、回答形式を指定して質問する。回答は保持する",
+      "requirements": [
+        "FR-QA-01",
+        "FR-QA-02",
+        "FR-QA-03",
+        "FR-QA-04",
+        "FR-QA-05"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": "Q1〜Q4 と負帰還・対象外素子の質問を実装。Q5・Q6 は後続"
+    },
+    {
+      "id": "F-08",
+      "group": "COMMON",
+      "name": "節点解析エンジン（DC・AC）",
+      "summary": "修正節点解析で、節点電圧、枝電流、消費電力を求める。理想オペアンプを扱う",
+      "requirements": [
+        "FR-AN-01",
+        "FR-AN-02",
+        "FR-AN-03",
+        "FR-AN-07"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-09",
+      "group": "COMMON",
+      "name": "負帰還の検査",
+      "summary": "各オペアンプの出力から反転入力への帰還経路を検査する。無ければ解析せず、扱いを質問する",
+      "requirements": [
+        "FR-AN-08"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-10",
+      "group": "COMMON",
+      "name": "対象外の素子と解析できない回路の報告",
+      "summary": "対象外の素子、浮遊節点、直流経路のない節点、特異な回路を、原因とともに報告する",
+      "requirements": [
+        "FR-AN-05",
+        "FR-AN-06"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-11",
+      "group": "COMMON",
+      "name": "観点の選択",
+      "summary": "確定後に、設計レビュー、FMEA、FTA のいずれかを選ぶ",
+      "requirements": [
+        "FR-FL-01",
+        "FR-FL-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-12",
+      "group": "COMMON",
+      "name": "指摘箇所の画像上の表示",
+      "summary": "指摘した部品やノードを、画像上に重ねて表示する",
+      "requirements": [
+        "FR-RS-01"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": "不一致の節点に接続する部品を画像上で強調する"
+    },
+    {
+      "id": "F-13",
+      "group": "COMMON",
+      "name": "評価結果の記録",
+      "summary": "確定版、使用した前提（回答を含む）、許容誤差とその出所、判定根拠を表示する",
+      "requirements": [
+        "FR-RS-02",
+        "FR-QA-04"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-14",
+      "group": "COMMON",
+      "name": "結果のエクスポート（PDF・Markdown）",
+      "summary": "評価結果を PDF または Markdown で出力する",
+      "requirements": [
+        "FR-RS-03"
+      ],
+      "scope": "後続",
+      "status": "未実装",
+      "notes": "後続（初版の対象外）"
+    },
+    {
+      "id": "F-15",
+      "group": "COMMON",
+      "name": "自動退避と復元",
+      "summary": "変更のたびにブラウザ内へ最新 1 件を退避し、次回起動時に復元を提示する",
+      "requirements": [
+        "FR-ST-01",
+        "FR-ST-02",
+        "FR-FL-03"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-16",
+      "group": "COMMON",
+      "name": "プロジェクトファイルの保存と読込",
+      "summary": "JSON で保存し、開いて作業を再開する。画像は埋め込み、読込時は形式を検証する",
+      "requirements": [
+        "FR-ST-03",
+        "FR-ST-04",
+        "NFR-SEC-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-17",
+      "group": "COMMON",
+      "name": "外部 API の呼び出しと鍵の入力",
+      "summary": "利用者が入力した鍵で、外部の AI API を呼び出す。鍵はセッション中のみ保持する",
+      "requirements": [
+        "NFR-SEC-01",
+        "CON-02",
+        "CON-07"
+      ],
+      "scope": "後続",
+      "status": "未実装",
+      "notes": "後続（初版の対象外）"
+    },
+    {
+      "id": "F-18",
+      "group": "COMMON",
+      "name": "免責の表示",
+      "summary": "評価結果は設計支援であり、安全認証や規格適合の判定ではないことを画面に表示する",
+      "requirements": [
+        "NFR-DISC-01",
+        "REQ-P-04"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-19",
+      "group": "COMMON",
+      "name": "解析ログ",
+      "summary": "解析の経過と質問・回答を記録する",
+      "requirements": [
+        "NFR-LOG-01"
+      ],
+      "scope": "後続",
+      "status": "未実装",
+      "notes": "後続（初版の対象外）"
+    },
+    {
+      "id": "F-20",
+      "group": "COMMON",
+      "name": "解析対象の拡張（非線形素子など）",
+      "summary": "ダイオード、トランジスタなどを解析の対象に加える",
+      "requirements": [],
+      "scope": "後続",
+      "status": "未実装",
+      "notes": "後続（初版の対象外）"
+    },
+    {
+      "id": "F-21",
+      "group": "REVIEW",
+      "name": "不一致の検出と理由の提示",
+      "summary": "期待値と解析結果を比較し、許容誤差を超える箇所を理由とともに示す",
+      "requirements": [
+        "FR-DR-01",
+        "FR-DR-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-22",
+      "group": "REVIEW",
+      "name": "許容誤差の設定",
+      "summary": "既定は ±5%。注釈の許容差を優先し、期待値が 0 の場合は 1 mV で判定する",
+      "requirements": [
+        "FR-DR-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": "注釈 > 利用者指定 > 既定（±5%）の順で適用し、出所を表示する。期待値 0 は 1 mV"
+    },
+    {
+      "id": "F-23",
+      "group": "REVIEW",
+      "name": "修正案の提示と再解析",
+      "summary": "修正案を複数示し、各案について再解析の結果を示す",
+      "requirements": [
+        "FR-DR-03"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-24",
+      "group": "REVIEW",
+      "name": "修正の適用と回路の書き換え",
+      "summary": "利用者が選んだ修正案を、回路（ネットリスト）に適用する",
+      "requirements": [
+        "FR-DR-04",
+        "FR-DR-05"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-25",
+      "group": "REVIEW",
+      "name": "取り消し・やり直しと変更履歴",
+      "summary": "編集の取り消しとやり直しを行う。変更履歴を持つ",
+      "requirements": [
+        "FR-DR-06"
+      ],
+      "scope": "初版",
+      "status": "一部",
+      "notes": "Undo / Redo は実装済み。変更履歴の一覧表示は未実装"
+    },
+    {
+      "id": "F-26",
+      "group": "REVIEW",
+      "name": "飽和の判定",
+      "summary": "電源電圧（Q1）から、オペアンプの出力が飽和するかを判定する",
+      "requirements": [
+        "FR-DR-07"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-27",
+      "group": "FMEA",
+      "name": "対象部品の指定",
+      "summary": "利用者が FMEA の対象部品を指定する（複数可）",
+      "requirements": [
+        "FR-FM-01"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-28",
+      "group": "FMEA",
+      "name": "故障モードライブラリ",
+      "summary": "部品種別ごとの故障モードを一覧表示する。ライブラリにない種別は質問する",
+      "requirements": [
+        "FR-FM-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-29",
+      "group": "FMEA",
+      "name": "注入値の設定",
+      "summary": "故障モードごとの注入値（既定値）を変更し、変更値を記録する",
+      "requirements": [
+        "FR-FM-03"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": "部品ごとに値変化（%）を変更でき、注入値を記録する"
+    },
+    {
+      "id": "F-30",
+      "group": "FMEA",
+      "name": "故障注入と影響評価",
+      "summary": "故障を注入して再解析し、期待値との差から影響を求める",
+      "requirements": [
+        "FR-FM-04",
+        "FR-AN-04"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-31",
+      "group": "FMEA",
+      "name": "S・O・D の評価と RPN",
+      "summary": "重大度と検出度は解析から決める。発生度は利用者が指定する。RPN = S × O × D を求める",
+      "requirements": [
+        "FR-FM-05"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-32",
+      "group": "FMEA",
+      "name": "対策要否の判定",
+      "summary": "RPN ≥ 100 または S ≥ 9 の場合に対策を要するとする",
+      "requirements": [
+        "FR-FM-06"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-33",
+      "group": "FMEA",
+      "name": "FMEA 結果の表と CSV",
+      "summary": "結果を画面に表示し、CSV で保存する",
+      "requirements": [
+        "FR-FM-07"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-34",
+      "group": "FTA",
+      "name": "トップ事象の候補の生成と選択",
+      "summary": "期待値の注釈からトップ事象の候補を作り、利用者が選ぶ",
+      "requirements": [
+        "FR-FT-01"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-35",
+      "group": "FTA",
+      "name": "基本事象の設定",
+      "summary": "指定部品の故障モードを基本事象とする。同一部品の同時故障は扱わない",
+      "requirements": [
+        "FR-FT-02"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-36",
+      "group": "FTA",
+      "name": "最小カットセットの抽出",
+      "summary": "故障の組合せを解析で試し、次数 2 までの最小カットセットを求める",
+      "requirements": [
+        "FR-FT-03"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-37",
+      "group": "FTA",
+      "name": "FTA 図（SVG）とカットセット表",
+      "summary": "最小カットセットから木構造を組み立てて描画し、一覧を表示する。各カットセットに逸脱量と根拠を記録する",
+      "requirements": [
+        "FR-FT-04",
+        "FR-FT-06"
+      ],
+      "scope": "初版",
+      "status": "実装済み",
+      "notes": ""
+    },
+    {
+      "id": "F-38",
+      "group": "FTA",
+      "name": "FTA の定量化",
+      "summary": "故障率が入力された場合に、トップ事象の発生確率を計算する",
+      "requirements": [
+        "FR-FT-05"
+      ],
+      "scope": "後続",
+      "status": "未実装",
+      "notes": "後続（初版の対象外）"
+    }
+  ],
+  "completionCriteria": {
+    "description": "初版の完了条件（要件定義書 8 章の受け入れ基準）",
+    "requirements": [
+      "AC-01",
+      "AC-02",
+      "AC-03",
+      "AC-04",
+      "AC-05",
+      "AC-06",
+      "AC-07",
+      "AC-08"
+    ],
+    "conditions": [
+      "初版の区分の機能が、すべて実装済み、一部、または停止中であること",
+      "一部の機能の未対応事項が、TBD で管理されていること"
+    ]
+  }
+}
